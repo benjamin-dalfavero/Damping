@@ -25,38 +25,6 @@ class Damper:
         force_out = C * (v ** a)
         return min([f_max, force_out])
 
-class System:
-    '''
-    represenation of a system with a mass connected to a viscous damper along the axis of motion during an earthquake.
-    '''
-    def __init__(self, m, damp):
-        '''
-        creates an instance of System.
-        m: mass of component (kg)
-        damp: instance of Damper
-        '''
-        self.mass = m
-        self.damper = damp
-    def accel(self, wave):
-        '''
-        acceleration of component. (m / s^2)
-        wave: input from earthquake
-        '''
-        a = wave.accel
-        dt = wave.ptp
-        v = a * dt
-        f = self.damper.force(v) * 1000
-        m = self.mass
-        return a - (f / m)
-    def reduction(self, wave):
-        '''
-        percent reduction of acceleration from damper.
-        wave: input from earthquake
-        '''
-        a = self.accel(wave)
-        a_s = wave.accel
-        return 100 - (a / a_s * 100)
-
 class Shockwave:
     '''
     shockwave from earthquake, represents seismic load.
@@ -69,3 +37,35 @@ class Shockwave:
         '''
         self.accel = a
         self.ptp = dt
+
+class System:
+    '''
+    system with a mass connected to a viscous damper along the axis of motion subjected to a seismic wave.
+    '''
+    def __init__(self, m, damp, wave):
+        '''
+        creates an instance of System.
+        m: mass of component (kg)
+        damp: instance of Damper
+        '''
+        self.mass = m
+        self.damper = damp
+        self.wave = wave
+    def compAccel(self):
+        '''
+        acceleration of component. (m/s^2)
+        '''
+        a = self.wave.accel
+        dt = self.wave.ptp
+        v = a * dt
+        f = self.damper.force(v) * 1000
+        m = self.mass
+        return a - (f / m)
+    def reduction(self):
+        '''
+        percent reduction of acceleration from damper.
+        wave: input from earthquake
+        '''
+        a = self.compAccel()
+        a_s = self.wave.accel
+        return 100 - (a / a_s * 100)
