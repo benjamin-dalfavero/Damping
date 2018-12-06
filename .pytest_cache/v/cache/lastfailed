@@ -1,0 +1,5 @@
+{
+  "damper_test.py": true,
+  "test.py::test_reduction_max_accel": true,
+  "test.py::test_reduction_min_accel": true
+}

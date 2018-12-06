@@ -1,0 +1,6 @@
+[
+  "test.py::test_min_accel",
+  "test.py::test_max_accel",
+  "test.py::test_reduction_min_accel",
+  "test.py::test_reduction_max_accel"
+]
