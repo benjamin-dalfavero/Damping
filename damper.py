@@ -37,21 +37,35 @@ class System:
         '''
         self.mass = m
         self.damper = damp
-    def accel(self, a, dt):
+    def accel(self, wave):
         '''
         acceleration of component. (m / s^2)
-        a: acceleration from seismic force (m / s^2)
-        dt: peak-to-peak time (s)
+        wave: input from earthquake
         '''
+        a = wave.accel
+        dt = wave.ptp
         v = a * dt
         f = self.damper.force(v) * 1000
         m = self.mass
         return a - (f / m)
-    def reduction(self, a_s, dt):
+    def reduction(self, wave):
         '''
         percent reduction of acceleration from damper.
-        a_s: acceleration from seismic force (m / s^2)
+        wave: input from earthquake
+        '''
+        a = self.accel(wave)
+        a_s = wave.accel
+        return 100 - (a / a_s * 100)
+
+class Shockwave:
+    '''
+    shockwave from earthquake, represents seismic load.
+    '''
+    def __init__(self, a, dt):
+        '''
+        creates an instance of Shockwave.
+        a: acceleration of component from wave (m / s^2)
         dt: peak to peak time (s)
         '''
-        a = self.accel(a_s, dt)
-        return 100 - (a / a_s * 100)
+        self.accel = a
+        self.ptp = dt
