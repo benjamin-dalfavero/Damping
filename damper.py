@@ -21,10 +21,8 @@ class Damper:
         '''
         C = self.coef
         a = self.alpha
-        f_max = self.fMax
         force_out = C * (v ** a)
-        return min([f_max, force_out])
-
+        return min([self.fMax, force_out]) 
 class Shockwave:
     '''
     shockwave from earthquake, represents seismic load.
@@ -47,6 +45,7 @@ class System:
         creates an instance of System.
         m: mass of component (kg)
         damp: instance of Damper
+        wave: instace of Shockwave
         '''
         self.mass = m
         self.damper = damp
@@ -58,7 +57,7 @@ class System:
         a = self.wave.accel
         dt = self.wave.ptp
         v = a * dt
-        f = self.damper.force(v) * 1000
+        f = self.damper.force(v) * 1000 # multiply because in kN
         m = self.mass
         return a - (f / m)
     def reduction(self):
