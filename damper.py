@@ -22,7 +22,8 @@ class Damper:
         C = self.coef
         a = self.alpha
         force_out = C * (v ** a)
-        return min([self.fMax, force_out]) 
+        return min([self.fMax, force_out])
+
 class Shockwave:
     '''
     shockwave from earthquake, represents seismic load.
@@ -50,7 +51,7 @@ class System:
         self.mass = m
         self.damper = damp
         self.wave = wave
-    def compAccel(self):
+    def comp_accel(self):
         '''
         acceleration of component. (m/s^2)
         '''
@@ -60,11 +61,10 @@ class System:
         f = self.damper.force(v) * 1000 # multiply because in kN
         m = self.mass
         return a - (f / m)
-    def reduction(self):
+    def force_ratio(self):
         '''
-        percent reduction of acceleration from damper.
-        wave: input from earthquake
+        ratio of damping and seismic forces
         '''
-        a = self.compAccel()
+        a = self.comp_accel()
         a_s = self.wave.accel
         return 100 - (a / a_s * 100)
