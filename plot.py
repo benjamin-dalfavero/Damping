@@ -13,7 +13,7 @@ def mapCs(sys, cs):
     return accum
 
 def plotCase(name, sys, c_vals, a_vals):
-    # plot redution vs c for all values of a
+    # plot force ratio vs c for all values of a
     for a in a_vals:
         sys.wave.accel = a
         force_vals = mapCs(sys, c_vals)
@@ -26,10 +26,15 @@ def plotCase(name, sys, c_vals, a_vals):
     plt.savefig(filename)
     plt.clf()
 
-# define test case.
+# define test cases
+
+# acceleration values
 g = 9.81
 a_vals = [0.5 * g, g, 1.5 * g]
 shockwave = d.Shockwave(4.905, 0.2)
+
+# C values based on range in catalog.
+# mass chosen to fit approximately with ideal range of damper.
 
 ld500 = d.Damper(6.55, 1.0, 4.0)
 ld500_sys = d.System(907.18, ld500, shockwave)
