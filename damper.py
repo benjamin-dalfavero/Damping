@@ -1,5 +1,9 @@
 from __future__ import division
 
+'''
+set of classes representing a viscously damped component under a seismic load
+'''
+
 class Damper:
     '''
     represents a viscous damper in terms of damping coefficient and exponent.
@@ -7,22 +11,22 @@ class Damper:
     def __init__(self, C, a, f_max):
         '''
         creates an instance of a damper class
-        C: damping coefficient (kN * s / m)
+        C: damping coefficient (kN*s/m)
         a: alpha value
         f_max: max output force of damper (kN)
         '''
         self.coef = C
         self.alpha = a
-        self.fMax = f_max
+        self.f_max = f_max
     def force(self, v):
         '''
-        damping force at a given velocity
-        v: relative velocity (m / s)
+        damping force at a given velocity (kN)
+        v: relative velocity (m/s)
         '''
         C = self.coef
         a = self.alpha
         force_out = C * (v ** a)
-        return min([self.fMax, force_out])
+        return min([self.f_max, force_out])
 
 class Shockwave:
     '''
@@ -31,14 +35,14 @@ class Shockwave:
     def __init__(self, a, dt):
         '''
         creates an instance of Shockwave.
-        a: acceleration of component from wave (m / s^2)
+        a: acceleration of component from wave (m/s^2)
         dt: peak to peak time (s)
         '''
         self.accel = a
         self.ptp = dt
     def v_max(self):
         '''
-        maximum velocity of wave
+        maximum velocity of wave (m/s)
         '''
         return self.accel * self.ptp
 
@@ -67,7 +71,7 @@ class System:
         return a - (f / m)
     def force_ratio(self):
         '''
-        ratio of damping and seismic forces
+        percent ratio of damping and seismic forces
         '''
         a = self.comp_accel()
         a_s = self.wave.accel
