@@ -36,6 +36,11 @@ class Shockwave:
         '''
         self.accel = a
         self.ptp = dt
+    def v_max(self):
+        '''
+        maximum velocity of wave
+        '''
+        return self.accel * self.ptp
 
 class System:
     '''
@@ -56,8 +61,7 @@ class System:
         acceleration of component. (m/s^2)
         '''
         a = self.wave.accel
-        dt = self.wave.ptp
-        v = a * dt
+        v = self.wave.v_max()
         f = self.damper.force(v) * 1000 # multiply because in kN
         m = self.mass
         return a - (f / m)
