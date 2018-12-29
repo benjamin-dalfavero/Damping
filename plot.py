@@ -25,6 +25,7 @@ def plotCase(name, sys, c_vals, a_vals):
     plt.title(name)
     plt.xlabel('C')
     plt.ylabel('Force Ratio')
+    # set filename and save
     filename = name.replace(' ', '_') + ".jpg"
     plt.savefig(filename)
     plt.clf()
