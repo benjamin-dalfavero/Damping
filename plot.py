@@ -16,8 +16,11 @@ def plotCase(name, sys, c_vals, a_vals):
     # plot force ratio vs c for all values of a
     for a in a_vals:
         sys.wave.accel = a
-        force_vals = mapCs(sys, c_vals)
+        force_vals = mapCs(sys, c_vals) # force ratio values
         plt.plot(c_vals, force_vals)
+        # put factor of g as legend
+        factor = a / 9.81
+        plt.legend(str(factor) + "g")
     # put titles on graph
     plt.title(name)
     plt.xlabel('C')
