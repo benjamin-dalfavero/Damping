@@ -1,4 +1,6 @@
 from __future__ import division
+import matplotlib.pyplot as plt
+import numpy as np
 
 '''
 set of classes representing a viscously damped component under a seismic load
@@ -76,3 +78,20 @@ class System:
         a = self.comp_accel()
         a_s = self.wave.accel
         return 100 - (a / a_s * 100)
+
+class TestCase:
+    '''
+    test case to be plotted. consits of a range of values of c and a to be tested.
+    '''
+    def __init__(self, sys, c_vals, a_vals):
+        '''
+	instantiates of test case
+	'''
+	self.sys = sys
+	self.c_vals = c_vals
+	self.a_vals = a_vals
+    def results(self):
+        '''
+	outputs matrix of test results, where each row represents a value of a,
+	and each column represents a value of c.
+	'''
